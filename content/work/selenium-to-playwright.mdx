@@ -1,0 +1,65 @@
+---
+title: "QA Automation: Starting with Selenium, Path to Playwright"
+date: "2025-10-20"
+summary: "Spearheaded UI automation with Selenium first—chosen for safety and team familiarity under a tight timeline—then mapped a clear migration path to Playwright for modern speed, stability, and DX."
+tags:
+  - Selenium
+  - Playwright
+  - Testing
+  - Automation
+  - CI/CD
+  - Azure DevOps
+  - Docker
+featured: true
+cover: ""
+order: 1
+---
+
+## Context
+
+We needed **ship-ready UI test coverage fast**. The team had prior exposure to Selenium, release dates were tight, and we couldn’t afford a long tool evaluation cycle. I **led the initial automation push with Selenium** to establish a reliable baseline quickly, while planning for a **future migration to Playwright** once we had bandwidth.
+
+## Why Selenium First
+
+- **Safety & Familiarity:** Existing team knowledge + mature ecosystem minimized ramp-up risk under time pressure.  
+- **Infra-Ready:** Runners and images already supported Selenium; CI wiring was straightforward.  
+- **Low Surprise Factor:** Predictable behavior for stakeholders who’d seen Selenium in past projects.
+
+## Implementation Highlights
+
+- **Thin, business-critical coverage:** Started with the highest-value user journeys.  
+- **Stable locators:** Introduced `data-testid` and a light page-object pattern to reduce churn.  
+- **Deterministic env:** Dockerized runners; seeded test data via REST/SQL when possible.  
+- **Azure DevOps CI:** Parallel jobs, artifact uploads (screenshots/logs), basic flaky rerun strategy.  
+
+This delivered **immediate guardrails** for releases without stalling the schedule.
+
+## Trade-offs We Accepted
+
+- **Longer runtime** and **more brittle waits** compared to modern frameworks.  
+- Heavier maintenance on **async/wait** and cross-browser consistency.  
+- Limited built-in tooling for **traces/insights** without add-ons.
+
+These were acceptable short-term costs to meet the release timeline.
+
+## Modernization Path: Playwright
+
+Once the baseline was stable, I proposed moving to **Playwright** to improve developer experience and speed:
+
+- **Faster, more reliable runs** with auto-waiting and smart retries.  
+- **First-class TypeScript** and **Trace Viewer** for rapid triage.  
+- **Built-in parallelism** and robust selectors reduce flake.  
+- Cleaner **API for fixtures** and test isolation.
+
+**Migration plan** (incremental, low risk):
+1. Keep Selenium suite as the gatekeeper for a period.  
+2. Pilot Playwright on a **small, high-signal subset** of flows.  
+3. Compare stability + runtime; enable traces for fast failure analysis.  
+4. Expand Playwright coverage; retire equivalent Selenium tests as confidence grows.
+
+## Result
+
+- **Short-term:** We shipped on time with Selenium providing the necessary release safety net.  
+- **Medium-term:** The Playwright pilot demonstrated **meaningful runtime and flake improvements** and a much better debugging experience, paving the way for a gradual, low-risk migration.
+
+> **Takeaway:** The decision wasn’t “tool X vs. tool Y” in a vacuum—it was **choosing Selenium first for safety under a deadline**, then **evolving to Playwright** for long-term quality and speed. This reflects my approach across stacks: pick the right tool for the moment, then iterate toward the best one.
