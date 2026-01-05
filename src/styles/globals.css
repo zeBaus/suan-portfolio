@@ -3,63 +3,163 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base tokens */
+/* ------------------------------------------------------------
+  Theme tokens (next-themes uses a `.dark` class on <html>)
+------------------------------------------------------------ */
 :root {
-    --bg: #ffffff;
-    --fg: #0a0a0a;
-    --muted: 0, 0%, 43%; /* HSL gray(43%) as comma RGB for hsla() usage */
-    --accent: #0ea5e9;   /* azure accent */
-    --radius: 12px;
+  --bg: #ffffff;
+  --fg: #0a0a0a;
+
+  /* “White utility aliases” for LIGHT mode (use dark text/surfaces) */
+  --fg-100: rgba(10, 10, 10, 1);
+  --fg-90: rgba(10, 10, 10, 0.9);
+  --fg-85: rgba(10, 10, 10, 0.85);
+  --fg-80: rgba(10, 10, 10, 0.8);
+  --fg-75: rgba(10, 10, 10, 0.75);
+  --fg-70: rgba(10, 10, 10, 0.7);
+  --fg-60: rgba(10, 10, 10, 0.6);
+
+  --line-10: rgba(10, 10, 10, 0.10);
+  --line-15: rgba(10, 10, 10, 0.15);
+  --line-20: rgba(10, 10, 10, 0.20);
+  --line-25: rgba(10, 10, 10, 0.25);
+  --line-30: rgba(10, 10, 10, 0.30);
+
+  --surface-5: rgba(10, 10, 10, 0.04);
+  --surface-10: rgba(10, 10, 10, 0.08);
+  --surface-15: rgba(10, 10, 10, 0.12);
+
+  --accent: #0ea5e9;
+  --radius: 12px;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg: #0b0b0b;
-        --fg: #f5f5f5;
-        --muted: 0, 0%, 65%;
-        --accent: #22d3ee; /* slightly brighter in dark */
-    }
+.dark {
+  --bg: #0b0b0b;
+  --fg: #f5f5f5;
+
+  /* “White utility aliases” for DARK mode (use light text/surfaces) */
+  --fg-100: rgba(245, 245, 245, 1);
+  --fg-90: rgba(245, 245, 245, 0.9);
+  --fg-85: rgba(245, 245, 245, 0.85);
+  --fg-80: rgba(245, 245, 245, 0.8);
+  --fg-75: rgba(245, 245, 245, 0.75);
+  --fg-70: rgba(245, 245, 245, 0.7);
+  --fg-60: rgba(245, 245, 245, 0.6);
+
+  --line-10: rgba(245, 245, 245, 0.10);
+  --line-15: rgba(245, 245, 245, 0.15);
+  --line-20: rgba(245, 245, 245, 0.20);
+  --line-25: rgba(245, 245, 245, 0.25);
+  --line-30: rgba(245, 245, 245, 0.30);
+
+  --surface-5: rgba(245, 245, 245, 0.05);
+  --surface-10: rgba(245, 245, 245, 0.10);
+  --surface-15: rgba(245, 245, 245, 0.15);
+
+  --accent: #22d3ee;
 }
 
 /* Global element resets */
 * {
-    -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
-    height: 100%;
+html,
+body {
+  height: 100%;
 }
 
 body {
-    background: var(--bg);
-    color: var(--fg);
-    font-feature-settings: "liga" 1, "calt" 1;
-    text-rendering: optimizeLegibility;
+  background: var(--bg);
+  color: var(--fg);
+  font-feature-settings: "liga" 1, "calt" 1;
+  text-rendering: optimizeLegibility;
 }
 
 /* Typography */
 .prose p {
-    @apply leading-relaxed;
+  @apply leading-relaxed;
 }
-.prose h1, .prose h2, .prose h3 {
-    @apply tracking-tight;
-}
-
-/* Utilities */
-.border {
-    border-radius: var(--radius);
+.prose h1,
+.prose h2,
+.prose h3 {
+  @apply tracking-tight;
 }
 
 /* Links */
 a {
-    transition: color 150ms ease, opacity 150ms ease, background-color 150ms ease;
+  transition: color 150ms ease, opacity 150ms ease, background-color 150ms ease;
 }
 a:hover {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 
 /* Selection */
 ::selection {
-    background: var(--accent);
-    color: white;
+  background: var(--accent);
+  color: white;
+}
+
+/* ------------------------------------------------------------
+  Compatibility layer: map common Tailwind “white” utilities
+  to theme-aware variables so light mode doesn't break.
+------------------------------------------------------------ */
+
+/* text */
+.text-white {
+  color: var(--fg-100) !important;
+}
+.text-white\/90 {
+  color: var(--fg-90) !important;
+}
+.text-white\/85 {
+  color: var(--fg-85) !important;
+}
+.text-white\/80 {
+  color: var(--fg-80) !important;
+}
+.text-white\/75 {
+  color: var(--fg-75) !important;
+}
+.text-white\/70 {
+  color: var(--fg-70) !important;
+}
+.text-white\/60 {
+  color: var(--fg-60) !important;
+}
+
+/* borders */
+.border-white\/10 {
+  border-color: var(--line-10) !important;
+}
+.border-white\/15 {
+  border-color: var(--line-15) !important;
+}
+.border-white\/20 {
+  border-color: var(--line-20) !important;
+}
+.border-white\/25 {
+  border-color: var(--line-25) !important;
+}
+.border-white\/30 {
+  border-color: var(--line-30) !important;
+}
+
+/* backgrounds */
+.bg-white\/5 {
+  background-color: var(--surface-5) !important;
+}
+.bg-white\/10 {
+  background-color: var(--surface-10) !important;
+}
+.bg-white\/15 {
+  background-color: var(--surface-15) !important;
+}
+
+/* hover backgrounds used in a few places */
+.hover\:bg-white\/10:hover {
+  background-color: var(--surface-10) !important;
+}
+.hover\:bg-white\/5:hover {
+  background-color: var(--surface-5) !important;
 }

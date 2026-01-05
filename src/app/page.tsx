@@ -1,6 +1,7 @@
 // src/app/page.tsx
 import Link from "next/link";
 import Container from "@/components/container";
+import FeaturedWorkGrid from "@/components/featured-work-grid";
 import { allWorks } from "contentlayer/generated";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -96,73 +97,7 @@ export default function HomePage() {
         </section>
 
         {/* FEATURED WORK */}
-        <section className="mt-20 max-w-5xl">
-          <div className="flex items-end justify-between gap-6">
-            <div>
-              <h2 className="text-2xl font-semibold tracking-tight text-white">
-                Featured work
-              </h2>
-              <p className="mt-2 text-white/80">
-                A few projects that show how I think: reliability, clarity, and outcomes.
-              </p>
-            </div>
-
-            <Button asChild variant="subtle">
-              <Link href="/work">See all</Link>
-            </Button>
-          </div>
-
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            {featured.length ? (
-              featured.map((w) => (
-                <Card key={w._id} className="hover:bg-white/[0.06]">
-                  <CardHeader>
-                    <CardTitle>
-                      <Link
-                        href={`/work/${w.slug}`}
-                        className="underline-offset-4 hover:underline"
-                      >
-                        {w.title}
-                      </Link>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {w.summary ? (
-                      <p className="text-sm text-white/80">{w.summary}</p>
-                    ) : null}
-
-                    {w.tags?.length ? (
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {w.tags.slice(0, 6).map((t) => (
-                          <Badge key={t} variant="subtle">
-                            {t}
-                          </Badge>
-                        ))}
-                      </div>
-                    ) : null}
-                  </CardContent>
-                </Card>
-              ))
-            ) : (
-              <Card>
-                <CardHeader>
-                  <CardTitle>No featured items yet</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-white/80">
-                    Mark a case study as <code className="rounded bg-white/10 px-1 py-0.5">featured: true</code>{" "}
-                    in its MDX frontmatter to show it here.
-                  </p>
-                  <div className="mt-4">
-                    <Button asChild variant="subtle">
-                      <Link href="/work">Browse work</Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-        </section>
+        <FeaturedWorkGrid items={featured as any} />
 
         {/* ABOUT TEASER */}
         <section className="mt-20 max-w-5xl">
