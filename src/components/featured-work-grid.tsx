@@ -26,10 +26,10 @@ export default function FeaturedWorkGrid({
     <section className="mt-20 max-w-5xl">
       <div className="flex items-end justify-between gap-6">
         <div>
-          <h2 className="text-2xl font-semibold tracking-tight text-white">
+          <h2 className="text-2xl font-semibold tracking-tight text-black dark:text-white">
             Featured work
           </h2>
-          <p className="mt-2 text-white/80">
+          <p className="mt-2 text-black/70 dark:text-white/80">
             Curated case studies that show outcomes, reliability, and how I think.
           </p>
         </div>
@@ -54,7 +54,7 @@ export default function FeaturedWorkGrid({
           </CardHeader>
           <CardContent>
             {top.summary ? (
-              <p className="text-sm text-white/80 md:text-base">{top.summary}</p>
+              <p className="text-sm text-black/70 dark:text-white/80 md:text-base">{top.summary}</p>
             ) : null}
 
             {top.tags?.length ? (
@@ -91,7 +91,7 @@ export default function FeaturedWorkGrid({
               </CardHeader>
               <CardContent>
                 {w.summary ? (
-                  <p className="text-sm text-white/80">{w.summary}</p>
+                  <p className="text-sm text-black/70 dark:text-white/80">{w.summary}</p>
                 ) : null}
 
                 {w.tags?.length ? (
@@ -119,9 +119,9 @@ export default function FeaturedWorkGrid({
                 <CardTitle className="text-base">Add more featured items</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-white/80">
+                <p className="text-sm text-black/70 dark:text-white/80">
                   Mark more MDX case studies with{" "}
-                  <code className="rounded bg-white/10 px-1 py-0.5">featured: true</code>.
+                  <code className="rounded bg-black/[0.06] px-1 py-0.5 dark:bg-white/10">featured: true</code>
                 </p>
               </CardContent>
             </Card>

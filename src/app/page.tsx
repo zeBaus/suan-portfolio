@@ -31,16 +31,16 @@ export default function HomePage() {
       <Container>
         {/* HERO */}
         <section className="max-w-5xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/80">
+          <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/[0.03] px-3 py-1 text-xs text-black/70 dark:border-white/15 dark:bg-white/5 dark:text-white/80">
             <span className="h-2 w-2 rounded-full bg-sky-400" />
             Outcome-first • Tool-agnostic • Quick learner
           </div>
 
-          <h1 className="mt-5 text-4xl font-semibold leading-tight tracking-tight text-white md:text-6xl">
+          <h1 className="mt-5 text-4xl font-semibold leading-tight tracking-tight text-black dark:text-white md:text-6xl">
             I build and improve real systems—fast.
           </h1>
 
-          <p className="mt-4 max-w-3xl text-lg text-white/80">
+          <p className="mt-4 max-w-3xl text-lg text-black/70 dark:text-white/80">
             Adaptive full-stack engineer focused on shipping value in existing codebases:
             understand the product, map the code paths, then deliver safe bug fixes,
             features, and automation that compound over time.
@@ -90,7 +90,7 @@ export default function HomePage() {
                 <CardTitle>{x.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-white/80">{x.desc}</p>
+                <p className="text-sm text-black/70 dark:text-white/80">{x.desc}</p>
               </CardContent>
             </Card>
           ))}
@@ -106,12 +106,12 @@ export default function HomePage() {
               <CardTitle>About me (short version)</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-white/80">
+              <p className="text-sm text-black/70 dark:text-white/80">
                 I enjoy joining teams with real constraints—legacy code, deadlines, production quirks—
                 and improving things without breaking velocity.
               </p>
 
-              <ul className="mt-4 space-y-2 text-sm text-white/80">
+              <ul className="mt-4 space-y-2 text-sm text-black/70 dark:text-white/80">
                 <li>• Understand product + knowledge base first, then verify in code.</li>
                 <li>• Ship small, safe changes with clear evidence and rollback options.</li>
                 <li>• Modernize tooling when it helps (not when it slows delivery).</li>
