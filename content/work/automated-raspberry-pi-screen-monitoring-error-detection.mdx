@@ -1,0 +1,39 @@
+---
+title: "Automated Raspberry Pi Screen Monitoring & Error Detection"
+date: "2024-06-01"
+summary: "Built a Python-based monitoring system that periodically pulls Raspberry Pi screenshots from AWS S3, compares them against expected visuals, and logs anomalies to catch device/UI issues early."
+tags:
+  - Python
+  - Automation
+  - Monitoring
+  - AWS S3
+  - OCR
+  - Scripting
+featured: false
+cover: ""
+order: 3
+---
+
+## Problem
+
+Raspberry Pi deployments can fail in subtle ways (blank screens, incorrect UI state, app crashes, unexpected overlays).
+We needed a lightweight way to **detect issues remotely** without waiting for customer reports.
+
+## Approach
+
+- Built a **scheduled Python monitoring workflow** (every ~30–60 minutes).
+- Pulled the **latest screenshots from AWS S3** for each device.
+- Compared the current screenshot against **expected visual states** to flag anomalies.
+- Used **OCR where needed** to validate on-screen text and error banners.
+- Logged anomalies in a structured way so the team could triage quickly and spot patterns over time.
+
+## Result
+
+- Faster detection of “silent failures” (device or UI issues that looked “online” but weren’t usable).
+- Reduced manual checking time and improved responsiveness for support/ops.
+- Created a repeatable pattern for monitoring other visual workflows.
+
+## Notes
+
+This project reinforced a practical monitoring mindset:
+**small, reliable signals → fast triage → fewer surprises in production.**

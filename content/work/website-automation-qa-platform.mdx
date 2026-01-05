@@ -1,0 +1,52 @@
+---
+title: "Website Automation & QA Platform"
+date: "2024-11-01"
+summary: "Built an internal automation platform to run repeatable website checks and UI flows, standardizing QA execution, reporting, and failure triage."
+tags:
+  - QA Automation
+  - Testing
+  - Selenium
+  - Playwright
+  - CI/CD
+  - Reporting
+featured: false
+cover: ""
+order: 6
+---
+
+## Problem
+
+Quality checks were inconsistent across projects:
+- teams ran tests differently (or not at all),
+- failures were hard to reproduce,
+- results weren’t standardized for non-technical stakeholders,
+- regression coverage drifted over time.
+
+We needed a practical platform that made automation **repeatable, visible, and easy to run**.
+
+## Approach
+
+- Designed a lightweight platform concept around:
+  - **standardized test execution** (consistent entry points and configs),
+  - **repeatable environments** (container-friendly where possible),
+  - **reporting artifacts** (screenshots/logs, run summaries).
+- Implemented automation flows (initially Selenium for safety/familiarity, then modernized toward Playwright where it provided better stability and DX).
+- Focused on high-signal checks:
+  - smoke flows,
+  - critical user journeys,
+  - “must not break” pages and forms.
+- Added a predictable way to triage failures:
+  - capture evidence,
+  - label flaky tests,
+  - separate infra failures from product regressions.
+
+## Result
+
+- Standardized how QA automation runs across projects.
+- Faster reproduction and triage due to consistent artifacts and reporting.
+- A foundation that can evolve with tooling while keeping outcomes stable.
+
+## Takeaway
+
+This platform reflects my usual approach:
+**ship a reliable baseline quickly**, then **iterate toward more modern tooling and better developer experience** without losing delivery momentum.

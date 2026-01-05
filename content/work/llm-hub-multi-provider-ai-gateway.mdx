@@ -1,0 +1,54 @@
+---
+title: "LLM Hub — Multi-Provider AI Gateway"
+date: "2024-09-01"
+summary: "Designed an asynchronous AI gateway that routes requests across multiple LLM providers behind a single interface, improving reliability, controllable latency, and failover behavior."
+tags:
+  - API Design
+  - Async Processing
+  - AI Integration
+  - Reliability
+  - Provider Abstraction
+  - Observability
+featured: false
+cover: ""
+order: 4
+---
+
+## Problem
+
+As AI features expanded, relying on a single provider created issues:
+- inconsistent latency during peak times,
+- vendor-specific API differences,
+- limited control over retries/failover,
+- difficulty observing cost and performance trends.
+
+We needed a single place to manage **routing, retries, and provider choice** without rewriting application logic.
+
+## Approach
+
+- Built **LLM Hub** as an asynchronous gateway with a **unified request/response contract**.
+- Implemented **provider adapters** to abstract away vendor differences.
+- Added routing strategies (example patterns):
+  - default provider + fallback provider
+  - model-based routing by capability
+  - timeout-based failover
+- Designed the flow for async execution where appropriate (queue / background jobs), so the app could:
+  - return quickly for long-running tasks,
+  - poll or receive callbacks when complete.
+- Captured consistent metadata for observability:
+  - provider used,
+  - latency,
+  - failure reason,
+  - retry counts (useful for tuning).
+
+## Result
+
+- Improved resilience through controlled failover and provider abstraction.
+- Reduced integration complexity for application teams (one interface instead of many).
+- Enabled clearer visibility into performance/cost tradeoffs across providers.
+
+## What I’d Improve Next
+
+- Add policy-based routing (per customer/feature SLAs).
+- Add caching for repeat prompts where safe.
+- Add cost ceilings / circuit breakers per provider to control spend.

@@ -2,7 +2,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-    darkMode: ["class"],
+    darkMode: "media",
     content: [
         "./src/**/*.{ts,tsx,mdx}",
         "./content/**/*.{md,mdx}"

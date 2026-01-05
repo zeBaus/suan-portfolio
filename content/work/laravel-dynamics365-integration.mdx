@@ -1,0 +1,48 @@
+---
+title: "Laravel + Dynamics365 Integration"
+date: "2024-03-01"
+summary: "Implemented a Laravel integration layer that synchronizes data with Microsoft Dynamics 365, handling authentication, mapping, retries, and data consistency across systems."
+tags:
+  - Laravel
+  - Integration
+  - REST APIs
+  - Data Mapping
+  - Reliability
+  - Enterprise Systems
+featured: false
+cover: ""
+order: 5
+---
+
+## Problem
+
+The business needed a stable way to push/pull records between an internal Laravel app and Microsoft Dynamics 365.
+Key issues were:
+- different data shapes and validation rules,
+- authentication/token handling,
+- rate limits and transient failures,
+- ensuring updates didn’t create duplicates or inconsistent states.
+
+## Approach
+
+- Built an integration layer in Laravel with clear boundaries:
+  - data mapping (internal → D365 and back),
+  - auth/session handling,
+  - retries/backoff for transient failures,
+  - structured error logging for support.
+- Normalized payloads through a mapping layer to keep application code clean.
+- Designed safer sync behavior using:
+  - idempotent operations where possible,
+  - deterministic matching keys to prevent duplicates,
+  - explicit failure handling and retry strategy.
+
+## Result
+
+- Reliable sync between systems with fewer manual corrections.
+- Cleaner code separation: app features stayed focused while integration logic remained isolated.
+- Better operational visibility when failures occurred (clear logs + failure categorization).
+
+## Notes
+
+This project is a good example of “outcome-first” engineering:
+the goal wasn’t just connectivity—it was **consistency, debuggability, and predictable operations**.

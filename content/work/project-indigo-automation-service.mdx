@@ -1,0 +1,46 @@
+---
+title: "Project Indigo — Automation Service"
+date: "2024-07-01"
+summary: "Developed an automation service to execute repeatable workflows reliably, focusing on job orchestration, observability, and operational safety under production constraints."
+tags:
+  - Automation
+  - Backend
+  - Orchestration
+  - Reliability
+  - Observability
+  - APIs
+featured: false
+cover: ""
+order: 7
+---
+
+## Problem
+
+Manual or ad-hoc automation was slowing down operations and causing inconsistency.
+We needed a dependable service to run workflows with:
+- predictable execution,
+- clear status and audit trails,
+- safe retries and failure handling.
+
+## Approach
+
+- Implemented a service-oriented workflow model:
+  - explicit job states,
+  - clear inputs/outputs,
+  - failure categories for triage.
+- Prioritized operational safety:
+  - timeouts and guards for long-running jobs,
+  - retry strategy for transient failures,
+  - structured logging for diagnostics.
+- Kept integration points clean via an API boundary so other apps/tools could trigger automation without tight coupling.
+
+## Result
+
+- More consistent workflow execution (less manual work, fewer “it depends” runs).
+- Faster triage through clear status and failure signals.
+- Better foundation for scaling automation as requirements grew.
+
+## What I’d Improve Next
+
+- Add dashboards for per-workflow success rate and average runtime.
+- Introduce queue-based execution for smoother load handling at scale.

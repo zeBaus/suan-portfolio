@@ -1,83 +1,109 @@
 // src/app/(work)/work/page.tsx
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import Container from "@/components/container";
 import { allWorks } from "contentlayer/generated";
 
-function sortWorks() {
-    return [...allWorks].sort((a, b) => {
-        // Primary: explicit order (lower first). Secondary: date (newest first). Tertiary: title.
-        const ao = a.order ?? Number.POSITIVE_INFINITY;
-        const bo = b.order ?? Number.POSITIVE_INFINITY;
-        if (ao !== bo) return ao - bo;
+function coerceOrder(v: unknown): number {
+  if (typeof v === "number" && Number.isFinite(v)) return v;
+  if (typeof v === "string") {
+    const n = Number(v.trim());
+    if (Number.isFinite(n)) return n;
+  }
+  return Number.POSITIVE_INFINITY;
+}
 
-        const ad = a.date ? new Date(a.date).getTime() : 0;
-        const bd = b.date ? new Date(b.date).getTime() : 0;
-        if (ad !== bd) return bd - ad;
+function sortWorks(list: typeof allWorks) {
+  return [...list].sort((a, b) => {
+    const ao = coerceOrder((a as any).order);
+    const bo = coerceOrder((b as any).order);
+    if (ao !== bo) return ao - bo;
 
-        return a.title.localeCompare(b.title);
-    });
+    const ad = a.date ? new Date(a.date).getTime() : 0;
+    const bd = b.date ? new Date(b.date).getTime() : 0;
+    if (ad !== bd) return bd - ad;
+
+    return a.title.localeCompare(b.title);
+  });
+}
+
+function WorkCard({ w }: { w: (typeof allWorks)[number] }) {
+  return (
+    <Card>
+      <CardHeader>
+          <div className="flex items-center justify-between gap-4">
+          <CardTitle>
+            <Link href={`/work/${w.slug}`} className="underline-offset-4 hover:underline">
+              {w.title}
+            </Link>
+          </CardTitle>
+        </div>
+      </CardHeader>
+
+      <CardContent>
+        {w.summary ? <p className="mt-2 text-sm text-white/80">{w.summary}</p> : null}
+
+        {w.tags?.length ? (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {w.tags.map((t) => (
+              <Badge key={t} variant="subtle">
+                {t}
+              </Badge>
+            ))}
+          </div>
+        ) : null}
+      </CardContent>
+    </Card>
+  );
 }
 
 export default function WorkIndexPage() {
-    const works = sortWorks();
+  const featured = sortWorks(allWorks.filter((w) => Boolean(w.featured)));
+  const rest = sortWorks(allWorks.filter((w) => !w.featured));
 
-    return (
-        <main className="min-h-screen px-6 py-16 md:px-10 lg:px-16">
-        <header className="max-w-3xl">
-            <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">Work</h1>
-            <p className="mt-3 text-black/70">
-            Outcome-first case studies authored in MDX. Tool-agnostic delivery, fast ramp-up,
-            and pragmatic engineering across stacks.
-            </p>
-        </header>
+  return (
+    <main className="min-h-screen py-16">
+    <Container>
+      <header className="max-w-3xl">
+        <h1 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
+          Work
+        </h1>
+        <p className="mt-3 text-white/80">
+          Outcome-first case studies authored in MDX. Tool-agnostic delivery, fast ramp-up,
+          and pragmatic engineering across stacks.
+        </p>
+      </header>
 
-        <section className="mt-10 grid gap-4">
-            {works.length === 0 ? (
-            <p className="text-black/60">No case studies yet. Check back soon.</p>
+      <section className="mt-10 grid gap-10">
+        {featured.length ? (
+          <div>
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-white/70">
+              Featured
+            </h2>
+            <div className="mt-4 grid gap-4">
+              {featured.map((w) => (
+                <WorkCard key={w._id} w={w} />
+              ))}
+            </div>
+          </div>
+        ) : null}
+
+        <div>
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-white/70">
+            All projects
+          </h2>
+
+          <div className="mt-4 grid gap-4">
+            {rest.length === 0 && featured.length === 0 ? (
+              <p className="text-white/70">No case studies yet. Check back soon.</p>
             ) : (
-            works.map((w) => (
-                <article key={w._id} className="rounded-2xl border p-5">
-                <div className="flex items-center justify-between gap-4">
-                    <h3 className="text-base font-semibold">
-                    <Link
-                        href={`/work/${w.slug}`}
-                        className="underline-offset-4 hover:underline"
-                    >
-                        {w.title}
-                    </Link>
-                    </h3>
-                    {w.date ? (
-                    <time
-                        dateTime={w.date}
-                        className="shrink-0 text-xs text-black/60"
-                        title={new Date(w.date).toISOString()}
-                    >
-                        {new Date(w.date).toLocaleDateString(undefined, {
-                        year: "numeric",
-                        month: "short",
-                        day: "2-digit"
-                        })}
-                    </time>
-                    ) : null}
-                </div>
-                {w.summary ? (
-                    <p className="mt-2 text-sm text-black/70">{w.summary}</p>
-                ) : null}
-                {w.tags?.length ? (
-                    <div className="mt-3 flex flex-wrap gap-2">
-                    {w.tags.map((t) => (
-                        <span
-                        key={t}
-                        className="rounded-full border px-3 py-1 text-xs text-black/80"
-                        >
-                        {t}
-                        </span>
-                    ))}
-                    </div>
-                ) : null}
-                </article>
-            ))
+              rest.map((w) => <WorkCard key={w._id} w={w} />)
             )}
-        </section>
-        </main>
-    );
+          </div>
+        </div>
+      </section>
+    </Container>
+  </main>
+);
 }

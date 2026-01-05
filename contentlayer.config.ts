@@ -13,7 +13,7 @@ export const Work = defineDocumentType(() => ({
         tags: { type: "list", of: { type: "string" } },
         featured: { type: "boolean", default: false },
         cover: { type: "string", description: "Relative image path or remote URL" },
-        order: { type: "number", description: "Optional sort override for listing" }
+        order: { type: "string", description: "Optional sort override for listing (will be coerced)" }
     },
     computedFields: {
         slug: {
