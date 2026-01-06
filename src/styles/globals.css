@@ -101,6 +101,25 @@ a:hover {
 }
 
 /* ------------------------------------------------------------
+  Page transitions (used by src/components/page-transition.tsx)
+------------------------------------------------------------ */
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-fade-in {
+  animation: pageFadeIn 220ms ease-out both;
+}
+
+
+/* ------------------------------------------------------------
   Compatibility layer: map common Tailwind “white” utilities
   to theme-aware variables so light mode doesn't break.
 ------------------------------------------------------------ */

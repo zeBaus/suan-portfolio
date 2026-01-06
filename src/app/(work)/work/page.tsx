@@ -43,7 +43,9 @@ function WorkCard({ w }: { w: (typeof allWorks)[number] }) {
 
       <CardContent>
         {w.summary ? (
-          <p className="mt-2 text-sm text-black/70 dark:text-white/80">{w.summary}</p>
+          <p className="mt-2 text-sm leading-relaxed text-black/70 dark:text-white/80">
+            {w.summary}
+          </p>
         ) : null}
 
         {w.tags?.length ? (
@@ -67,20 +69,23 @@ export default function WorkIndexPage() {
   return (
     <main className="min-h-screen py-16">
       <Container>
-        <header className="max-w-3xl">
-          <h1 className="text-3xl font-semibold tracking-tight text-black dark:text-white md:text-4xl">
+        <header className="max-w-5xl">
+          <p className="text-xs uppercase tracking-wide text-black/50 dark:text-white/60">
             Work
+          </p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-black dark:text-white md:text-4xl">
+            Case studies & shipped projects
           </h1>
-          <p className="mt-3 text-black/70 dark:text-white/80">
+          <p className="mt-3 max-w-3xl text-black/70 dark:text-white/80">
             Outcome-first case studies authored in MDX. Tool-agnostic delivery, fast ramp-up,
             and pragmatic engineering across stacks.
           </p>
         </header>
 
-        <section className="mt-10 grid gap-10">
+        <section className="mt-10 grid gap-10 max-w-5xl">
           {featured.length ? (
             <div>
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-black/60 dark:text-white/70">
+              <h2 className="text-xs font-semibold uppercase tracking-wide text-black/50 dark:text-white/60">
                 Featured
               </h2>
               <div className="mt-4 grid gap-4">
@@ -92,13 +97,15 @@ export default function WorkIndexPage() {
           ) : null}
 
           <div>
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-black/60 dark:text-white/70">
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-black/50 dark:text-white/60">
               All projects
             </h2>
 
             <div className="mt-4 grid gap-4">
               {rest.length === 0 && featured.length === 0 ? (
-                <p className="text-black/60 dark:text-white/70">No case studies yet. Check back soon.</p>
+                <p className="text-black/60 dark:text-white/70">
+                  No case studies yet. Check back soon.
+                </p>
               ) : (
                 rest.map((w) => <WorkCard key={w._id} w={w} />)
               )}

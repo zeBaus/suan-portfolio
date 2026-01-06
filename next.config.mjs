@@ -5,7 +5,7 @@ import { withContentlayer } from "next-contentlayer2";
 const nextConfig = {
     reactStrictMode: true,
     experimental: {
-        typedRoutes: true
+        typedRoutes: false
     },
     images: {
         // Add remotePatterns here later if you host images off-site.
