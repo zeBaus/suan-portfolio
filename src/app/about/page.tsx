@@ -13,6 +13,135 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  ArrowUpRight,
+  Bot,
+  Briefcase,
+  Cloud,
+  GraduationCap,
+  Wrench,
+  FileText,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+type TimelineItem = {
+  period: string;
+  org: string;
+  role: string;
+  icon: LucideIcon;
+  tags: string[];
+  bullets: string[];
+};
+
+const timeline: TimelineItem[] = [
+  {
+    period: "Dec 2023 — Present",
+    org: "N-Compass TV",
+    role: "Full-stack • QA Automation • R&D (LLMs)",
+    icon: Bot,
+    tags: [".NET / ASP.NET", "Angular", "SQL Server", "Selenium (Python)", "Azure DevOps", "JWT"],
+    bullets: [
+      "Led Selenium automation to speed up regression cycles and reduce production bugs.",
+      "Built internal tooling/scripts for monitoring, troubleshooting, and reporting to improve visibility.",
+      "Shipped full-stack features (Angular + .NET) and improved data models/queries in SQL Server.",
+      "Transitioned into LLM R&D: evaluate and integrate LLM platforms for internal workflows.",
+    ],
+  },
+  {
+    period: "Sep 2023 — Dec 2023",
+    org: "Wind’s Gate Phils",
+    role: "Full-stack (crypto platforms)",
+    icon: Wrench,
+    tags: ["Laravel", "React", "Docker", "Linux (Ubuntu)", "Kotlin", "SQL"],
+    bullets: [
+      "Worked on existing crypto platforms: backend features in Laravel and frontend integrations in React.",
+      "Shipped in a containerized Linux environment (Docker) with fast iteration and debugging.",
+      "Supported DB operations with SQL and gained exposure to mobile-integrated components (Kotlin).",
+    ],
+  },
+  {
+    period: "Jun 2023 — Sep 2023",
+    org: "Ramon Aboitiz Foundation Inc. (RAFI)",
+    role: "Laravel Integrations • DevOps (Microsoft ecosystem)",
+    icon: Cloud,
+    tags: ["Laravel", "Dynamics 365", "IIS", "Azure App Services", "Azure Key Vault", "Azure DevOps"],
+    bullets: [
+      "Integrated Laravel systems with Microsoft Dynamics 365 for data sync and process automation.",
+      "Supported stable deployments via IIS and improved release consistency with Azure DevOps pipelines.",
+      "Worked with App Services + Key Vault to support secure, maintainable deployments.",
+    ],
+  },
+  {
+    period: "Nov 2022 — May 2023",
+    org: "Gemango Software Services",
+    role: "Software Engineer",
+    icon: Briefcase,
+    tags: ["Production delivery", "Debugging", "Agile teamwork"],
+    bullets: [
+      "Built and maintained production-grade solutions with a strong focus on stability and releases.",
+      "Worked closely with dev/QA/PM to ship reliable increments and troubleshoot complex issues.",
+    ],
+  },
+  {
+    period: "Dec 2020 — May 2022",
+    org: "Hatchit Solutions",
+    role: "Software Engineer (features + testing)",
+    icon: Briefcase,
+    tags: ["Feature delivery", "Client collaboration", "Maintainable code"],
+    bullets: [
+      "Delivered features under deadlines while keeping code clean, debuggable, and maintainable.",
+      "Joined client discussions to clarify requirements and demonstrate progress.",
+    ],
+  },
+  {
+    period: "B.S. Computer Science",
+    org: "University of San Carlos",
+    role: "Foundations + applied delivery",
+    icon: GraduationCap,
+    tags: ["Systems thinking", "Web apps", "APIs", "Databases"],
+    bullets: [
+      "Built breadth across frontend, backend, and databases—comfortable switching tools as constraints change.",
+    ],
+  },
+];
+
+function TimelineItemRow({ item, isLast }: { item: TimelineItem; isLast: boolean }) {
+  const Icon = item.icon;
+
+  return (
+    <li className="relative pl-10">
+      <span className="absolute left-1 top-2 h-2.5 w-2.5 rounded-full bg-sky-400" />
+      {!isLast ? (
+        <span className="absolute left-[6px] top-5 h-[calc(100%+20px)] w-px bg-black/10 dark:bg-white/15" />
+      ) : null}
+
+      <div className="flex flex-wrap items-center gap-2">
+        <Badge variant="subtle">{item.period}</Badge>
+        <div className="inline-flex items-center gap-2 text-sm font-medium text-black dark:text-white">
+          <Icon className="h-4 w-4 text-sky-400" />
+          {item.org}
+        </div>
+        <span className="text-sm text-black/60 dark:text-white/60">— {item.role}</span>
+      </div>
+
+      <ul className="mt-3 space-y-2 text-sm text-black/70 dark:text-white/80">
+        {item.bullets.map((b) => (
+          <li key={b}>• {b}</li>
+        ))}
+      </ul>
+
+      {item.tags?.length ? (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {item.tags.map((t) => (
+            <Badge key={t} variant="subtle">
+              {t}
+            </Badge>
+          ))}
+        </div>
+      ) : null}
+    </li>
+  );
+}
 
 export default function AboutPage() {
   return (
@@ -22,23 +151,55 @@ export default function AboutPage() {
           <p className="text-xs uppercase tracking-wide text-black/50 dark:text-white/60">
             About
           </p>
+
           <h1 className="mt-2 text-3xl font-semibold tracking-tight text-black dark:text-white md:text-4xl">
             Jose Rico Suan
           </h1>
+
           <p className="mt-3 max-w-3xl text-black/70 dark:text-white/80">
-            Adaptive full-stack engineer focused on shipping outcomes. I ramp fast by
-            learning the product and codebase, then deliver safe improvements—bug fixes,
-            features, and automation—without slowing teams down.
+            AI-powered full-stack engineer focused on shipping outcomes in real systems: ramp fast by
+            learning product flows + code paths, then deliver safe bug fixes, incremental features,
+            automation, and reliability upgrades.
           </p>
+
+          <div className="mt-4 flex flex-wrap gap-2">
+            {[
+              ".NET / ASP.NET",
+              "Angular",
+              "SQL Server",
+              "Selenium (Python)",
+              "Azure & AWS",
+              "LLM integrations",
+            ].map((t) => (
+              <Badge key={t} variant="subtle">
+                {t}
+              </Badge>
+            ))}
+          </div>
 
           <div className="mt-6 flex flex-wrap gap-3">
             <Button asChild>
-              <Link href="/work">View Work</Link>
+              <Link href="/work">
+                View Work <ArrowUpRight className="h-4 w-4" />
+              </Link>
             </Button>
+
             <Button asChild variant="subtle">
               <Link href="/contact">Contact</Link>
             </Button>
+
+            {/* Expects a file at /public/resume.pdf */}
+            <Button asChild variant="ghost">
+              <a href="/resume.pdf" target="_blank" rel="noreferrer">
+                Resume <FileText className="h-4 w-4" />
+              </a>
+            </Button>
           </div>
+
+          <p className="mt-3 text-xs text-black/50 dark:text-white/60">
+            Tip: place your PDF at <span className="font-medium">/public/resume.pdf</span> to make the Resume
+            button work.
+          </p>
         </header>
 
         <section className="mt-12 grid max-w-5xl gap-6 md:grid-cols-[360px_1fr]">
@@ -48,7 +209,6 @@ export default function AboutPage() {
               <div className="flex items-center justify-between gap-4">
                 <CardTitle>Profile</CardTitle>
 
-                {/* “More” modal */}
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button variant="ghost" className="h-9 px-3">
@@ -70,17 +230,8 @@ export default function AboutPage() {
                           Hobbies
                         </h3>
                         <p className="mt-1 text-sm text-black/70 dark:text-white/80">
-                          Gym/fitness, tinkering with side projects, and learning new tools fast
-                          when there’s a real problem to solve.
-                        </p>
-                      </section>
-
-                      <section>
-                        <h3 className="text-sm font-semibold text-black dark:text-white">
-                          Music
-                        </h3>
-                        <p className="mt-1 text-sm text-black/70 dark:text-white/80">
-                          Mostly focus/lo-fi while coding; I switch to upbeat playlists when shipping.
+                          Gym/fitness, tinkering with side projects, and learning new tools fast when there’s
+                          a real problem to solve.
                         </p>
                       </section>
 
@@ -97,9 +248,9 @@ export default function AboutPage() {
                     </div>
 
                     <div className="mt-6 flex flex-wrap gap-2">
-                      <Badge variant="subtle">Curious</Badge>
                       <Badge variant="subtle">Outcome-first</Badge>
-                      <Badge variant="subtle">Team-friendly</Badge>
+                      <Badge variant="subtle">Remote-ready</Badge>
+                      <Badge variant="subtle">Fast learner</Badge>
                     </div>
                   </DialogContent>
                 </Dialog>
@@ -107,7 +258,6 @@ export default function AboutPage() {
             </CardHeader>
 
             <CardContent>
-              {/* Photo dialog (large preview) */}
               <Dialog>
                 <DialogTrigger asChild>
                   <button
@@ -158,16 +308,16 @@ export default function AboutPage() {
                 <p className="text-xs text-black/60 dark:text-white/60">Open to remote roles</p>
               </div>
 
-
               <div className="mt-4 flex flex-wrap gap-2">
                 <Badge variant="subtle">Full-stack</Badge>
-                <Badge variant="subtle">Automation</Badge>
+                <Badge variant="subtle">Test automation</Badge>
                 <Badge variant="subtle">API / SQL</Badge>
-                <Badge variant="subtle">DevOps-ish</Badge>
+                <Badge variant="subtle">Cloud / CI-CD</Badge>
+                <Badge variant="subtle">LLM workflows</Badge>
               </div>
 
               <p className="mt-4 text-xs text-black/60 dark:text-white/60">
-               <span className="font-medium">Click photo to enlarge.</span>
+                <span className="font-medium">Click photo to enlarge.</span>
               </p>
             </CardContent>
           </Card>
@@ -180,8 +330,9 @@ export default function AboutPage() {
             <CardContent>
               <div className="grid gap-6">
                 <p className="text-sm leading-relaxed text-black/70 dark:text-white/80">
-                  I like joining real systems—where the codebase already exists, users
-                  already have expectations, and delivery still matters.
+                  I like joining real systems—where the codebase already exists, users already have
+                  expectations, and delivery still matters. I’m comfortable owning work end-to-end:
+                  requirements → implementation → testing → deployment → basic monitoring.
                 </p>
 
                 <div>
@@ -195,23 +346,12 @@ export default function AboutPage() {
                     </li>
                     <li>
                       <span className="font-medium text-black dark:text-white">Stabilize:</span>{" "}
-                      fix high-signal bugs and reduce friction points.
+                      fix high-signal issues and reduce friction points.
                     </li>
                     <li>
                       <span className="font-medium text-black dark:text-white">Improve:</span>{" "}
-                      add small features and automation that compound over time.
+                      add small features + automation that compounds over time.
                     </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-sm font-semibold text-black dark:text-white">
-                    What you can expect
-                  </h3>
-                  <ul className="mt-2 space-y-2 text-sm text-black/70 dark:text-white/80">
-                    <li>Clear communication and scoped changes.</li>
-                    <li>Tool-agnostic delivery (choose what fits the constraint).</li>
-                    <li>Pragmatic quality: evidence, logs, and repeatable checks.</li>
                   </ul>
                 </div>
 
@@ -227,7 +367,11 @@ export default function AboutPage() {
                     <Badge variant="subtle">SQL Server</Badge>
                     <Badge variant="subtle">Docker</Badge>
                     <Badge variant="subtle">Azure DevOps</Badge>
-                    <Badge variant="subtle">Selenium / Playwright</Badge>
+                    <Badge variant="subtle">Azure App Services</Badge>
+                    <Badge variant="subtle">Azure Key Vault</Badge>
+                    <Badge variant="subtle">AWS (S3/Lambda/API GW)</Badge>
+                    <Badge variant="subtle">JWT Auth</Badge>
+                    <Badge variant="subtle">Selenium (Python)</Badge>
                   </div>
                 </div>
               </div>
@@ -235,17 +379,45 @@ export default function AboutPage() {
           </Card>
         </section>
 
+        {/* Timeline */}
         <section className="mt-12 max-w-5xl">
           <Card>
             <CardHeader>
-              <CardTitle>Next improvements</CardTitle>
+              <div className="flex items-end justify-between gap-6">
+                <div>
+                  <CardTitle>Experience timeline</CardTitle>
+                  <p className="mt-2 text-sm text-black/70 dark:text-white/80">
+                    Concise highlights focused on outcomes and constraints.
+                  </p>
+                </div>
+
+                <div className="hidden sm:flex gap-2">
+                  <Button asChild variant="subtle" className="h-9">
+                    <Link href="/work">See case studies</Link>
+                  </Button>
+                </div>
+              </div>
             </CardHeader>
+
             <CardContent>
-              <ul className="space-y-2 text-sm text-black/70 dark:text-white/80">
-                <li>Replace placeholder avatar with a real photo (done—add the file).</li>
-                <li>Add a short timeline section (roles + milestones).</li>
-                <li>Keep animations subtle and performance-friendly.</li>
-              </ul>
+              <ol className="relative space-y-7">
+                {timeline.map((item, idx) => (
+                  <TimelineItemRow
+                    key={`${item.org}-${item.period}`}
+                    item={item}
+                    isLast={idx === timeline.length - 1}
+                  />
+                ))}
+              </ol>
+
+              <div className="mt-6 flex flex-wrap gap-3 sm:hidden">
+                <Button asChild variant="subtle">
+                  <Link href="/work">See case studies</Link>
+                </Button>
+                <Button asChild variant="ghost">
+                  <Link href="/contact">Contact</Link>
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </section>

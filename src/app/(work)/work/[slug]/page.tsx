@@ -10,71 +10,178 @@ import Container from "@/components/container";
 import React from "react";
 import CopyButton from "@/components/copy-button";
 
+function getCodeStringFromPreChildren(children: React.ReactNode): string {
+  if (typeof children === "string") return children;
+
+  // common MDX shape: <pre><code>...</code></pre>
+  if (React.isValidElement(children)) {
+    const inner = (children as any).props?.children;
+    if (typeof inner === "string") return inner;
+  }
+
+  return "";
+}
+
+function getLanguageFromPreChildren(children: React.ReactNode): string | null {
+  if (!React.isValidElement(children)) return null;
+
+  const className: string = (children as any).props?.className ?? "";
+  const m = className.match(/language-([a-z0-9-]+)/i);
+  return m?.[1]?.toLowerCase() ?? null;
+}
+
 // Theme-aware MDX components (editorial + readable in light/dark)
 const components = {
   h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
-      className="mt-10 scroll-mt-24 text-2xl font-semibold tracking-tight text-black dark:text-white"
+      className="mt-12 scroll-mt-24 text-2xl font-semibold tracking-tight text-black first:mt-0 dark:text-white"
       {...props}
     />
   ),
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3
-      className="mt-8 scroll-mt-24 text-xl font-semibold tracking-tight text-black dark:text-white"
+      className="mt-10 scroll-mt-24 text-xl font-semibold tracking-tight text-black first:mt-0 dark:text-white"
       {...props}
     />
   ),
-  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="mt-4 leading-relaxed text-black/70 dark:text-white/80" {...props} />
+  h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h4
+      className="mt-8 scroll-mt-24 text-base font-semibold tracking-tight text-black first:mt-0 dark:text-white"
+      {...props}
+    />
   ),
+
+  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
+    <p
+      className="mt-4 leading-relaxed text-black/70 first:mt-0 dark:text-white/80"
+      {...props}
+    />
+  ),
+
   ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul className="mt-4 list-disc space-y-1 pl-6 text-black/70 dark:text-white/80" {...props} />
+    <ul
+      className="mt-4 list-disc space-y-2 pl-6 text-black/70 dark:text-white/80"
+      {...props}
+    />
   ),
   ol: (props: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol className="mt-4 list-decimal space-y-1 pl-6 text-black/70 dark:text-white/80" {...props} />
+    <ol
+      className="mt-4 list-decimal space-y-2 pl-6 text-black/70 dark:text-white/80"
+      {...props}
+    />
   ),
-  li: (props: React.HTMLAttributes<HTMLLIElement>) => <li {...props} />,
+  li: (props: React.HTMLAttributes<HTMLLIElement>) => (
+    <li className="leading-relaxed" {...props} />
+  ),
+
   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a
-      className="underline underline-offset-4 text-black hover:opacity-90 dark:text-white"
+      className="font-medium text-black underline underline-offset-4 transition-opacity hover:opacity-90 dark:text-white"
       {...props}
     />
   ),
+
   blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
-      className="mt-6 border-l-4 border-black/15 pl-4 italic text-black/70 dark:border-white/20 dark:text-white/80"
+      className="mt-6 rounded-2xl border border-black/10 bg-black/[0.02] p-4 text-black/70 dark:border-white/15 dark:bg-white/[0.03] dark:text-white/80"
       {...props}
     />
   ),
-  code: (props: React.HTMLAttributes<HTMLElement>) => (
-    <code
-      className="rounded bg-black/[0.06] px-1 py-0.5 font-mono text-[0.95em] text-black dark:bg-white/10 dark:text-white"
-      {...props}
-    />
+
+  hr: (props: React.HTMLAttributes<HTMLHRElement>) => (
+    <hr className="my-10 border-black/10 dark:border-white/15" {...props} />
   ),
-  pre: (props: React.HTMLAttributes<HTMLPreElement>) => {
-    const raw =
-      typeof props.children === "string"
-        ? props.children
-        : // common MDX shape: <pre><code>...</code></pre>
-          (React.isValidElement(props.children) &&
-            typeof (props.children as any).props?.children === "string" &&
-            (props.children as any).props.children) ||
-          "";
+
+  // Inline code vs code-block code:
+  // - Inline code gets pill styling
+  // - Block code (usually has language-*) stays clean (no bg/padding)
+  code: (props: React.HTMLAttributes<HTMLElement>) => {
+    const className = (props as any).className ?? "";
+    const isBlockCode = typeof className === "string" && /language-/.test(className);
+
+    if (isBlockCode) {
+      return (
+        <code
+          {...props}
+          className={`font-mono text-[0.95em] ${className}`.trim()}
+        />
+      );
+    }
 
     return (
-      <div className="mt-4">
-        <div className="mb-2 flex items-center justify-end">
-          {raw ? <CopyButton value={raw} /> : null}
+      <code
+        {...props}
+        className={`rounded bg-black/[0.06] px-1 py-0.5 font-mono text-[0.95em] text-black dark:bg-white/10 dark:text-white ${className}`.trim()}
+      />
+    );
+  },
+
+  pre: (props: React.HTMLAttributes<HTMLPreElement>) => {
+    const raw = getCodeStringFromPreChildren(props.children);
+    const lang = getLanguageFromPreChildren(props.children);
+
+    return (
+      <div className="mt-6">
+        <div className="mb-2 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {lang ? (
+              <span className="rounded-full border border-black/10 bg-black/[0.03] px-2 py-0.5 text-[11px] font-medium text-black/60 dark:border-white/15 dark:bg-white/5 dark:text-white/70">
+                {lang}
+              </span>
+            ) : null}
+          </div>
+
+          <div className="flex items-center gap-2">
+            {raw ? <CopyButton value={raw} /> : null}
+          </div>
         </div>
 
         <pre
-          className="overflow-x-auto rounded-2xl border border-black/10 bg-black/[0.03] p-4 text-sm text-black dark:border-white/15 dark:bg-black/40 dark:text-white"
           {...props}
+          className={[
+            "overflow-x-auto rounded-2xl border border-black/10 bg-black/[0.03] p-4 text-sm leading-relaxed text-black",
+            "dark:border-white/15 dark:bg-black/40 dark:text-white",
+            // preserve any incoming className
+            (props as any).className ?? "",
+          ].join(" ")}
         />
       </div>
     );
   },
+
+  table: (props: React.TableHTMLAttributes<HTMLTableElement>) => (
+    <div className="mt-6 overflow-x-auto rounded-2xl border border-black/10 dark:border-white/15">
+      <table className="w-full border-collapse text-sm" {...props} />
+    </div>
+  ),
+  thead: (props: React.HTMLAttributes<HTMLTableSectionElement>) => (
+    <thead className="bg-black/[0.03] dark:bg-white/[0.04]" {...props} />
+  ),
+  th: (props: React.ThHTMLAttributes<HTMLTableCellElement>) => (
+    <th
+      className="border-b border-black/10 px-3 py-2 text-left font-semibold text-black dark:border-white/15 dark:text-white"
+      {...props}
+    />
+  ),
+  td: (props: React.TdHTMLAttributes<HTMLTableCellElement>) => (
+    <td
+      className="border-b border-black/10 px-3 py-2 align-top text-black/70 dark:border-white/15 dark:text-white/80"
+      {...props}
+    />
+  ),
+
+  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+    // keep as <img> for MDX simplicity; Next/Image can be introduced later if you prefer
+    <img
+      {...props}
+      className={[
+        "mt-6 w-full rounded-2xl border border-black/10 bg-black/[0.02]",
+        "dark:border-white/15 dark:bg-white/[0.03]",
+        props.className ?? "",
+      ].join(" ")}
+      alt={props.alt ?? ""}
+    />
+  ),
 } as const;
 
 type Params = { slug: string };
@@ -89,7 +196,10 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
 
   const title = `${work.title} — Work`;
   const description = work.summary ?? "Case study";
-  const url = `https://example.com/work/${work.slug}`; // swap to prod URL after deploy
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "") ?? "http://localhost:3000";
+  const url = `${baseUrl}/work/${work.slug}`;
+
 
   return {
     title,

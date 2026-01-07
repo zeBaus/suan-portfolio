@@ -6,6 +6,7 @@ import { allWorks } from "contentlayer/generated";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, Sparkles, Zap, ShieldCheck, Wrench } from "lucide-react";
 
 function coerceOrder(v: unknown): number {
   if (typeof v === "number" && Number.isFinite(v)) return v;
@@ -31,56 +32,103 @@ export default function HomePage() {
       <Container>
         {/* HERO */}
         <section className="max-w-5xl">
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/[0.03] px-3 py-1 text-xs text-black/70 dark:border-white/15 dark:bg-white/5 dark:text-white/80">
-              <span className="h-2 w-2 rounded-full bg-sky-400" />
-              Outcome-first • Tool-agnostic • Quick learner
-            </div>
-
-            <div className="space-y-4">
-              <h1 className="text-4xl font-semibold leading-[1.05] tracking-tight text-black dark:text-white md:text-6xl">
-                I build and improve real systems—fast.
-              </h1>
-
-              <p className="max-w-3xl text-lg leading-relaxed text-black/70 dark:text-white/80 md:text-xl">
-                Adaptive full-stack engineer focused on shipping value in existing codebases:
-                understand the product, map the code paths, then deliver safe bug fixes,
-                features, and automation that compound over time.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-3">
-              <Button asChild>
-                <Link href="/work">View Work</Link>
-              </Button>
-              <Button asChild variant="subtle">
-                <Link href="/about">About Me</Link>
-              </Button>
-              <Button asChild variant="ghost">
-                <Link href="/contact">Contact</Link>
-              </Button>
-            </div>
-
-            <div className="pt-2">
-              <p className="text-xs uppercase tracking-wide text-black/50 dark:text-white/60">
-                Common stacks I ship in
-              </p>
-              <div className="mt-3 flex max-w-4xl flex-wrap gap-2">
-                {[
-                  ".NET / ASP.NET",
-                  "Angular",
-                  "Laravel",
-                  "React",
-                  "SQL Server",
-                  "Docker",
-                  "Azure DevOps",
-                  "Selenium / Playwright",
-                ].map((t) => (
-                  <Badge key={t} variant="subtle">
-                    {t}
-                  </Badge>
-                ))}
+          <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:gap-10">
+            {/* Left */}
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/[0.03] px-3 py-1 text-xs text-black/70 dark:border-white/15 dark:bg-white/5 dark:text-white/80">
+                <Sparkles className="h-3.5 w-3.5 text-sky-400" />
+                Outcome-first • Tool-agnostic • Quick learner
               </div>
+
+              <div className="space-y-4">
+                <h1 className="text-4xl font-semibold leading-[1.05] tracking-tight text-black dark:text-white md:text-6xl">
+                  I ship improvements in real codebases—fast.
+                </h1>
+
+                <p className="max-w-3xl text-lg leading-relaxed text-black/70 dark:text-white/80 md:text-xl">
+                  Full-stack engineer focused on delivery: understand the product and code paths,
+                  then implement safe bug fixes, incremental features, and automation that compounds.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <Button asChild>
+                  <Link href="/work">
+                    View Work <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+
+                <Button asChild variant="subtle">
+                  <Link href="/contact">Contact</Link>
+                </Button>
+
+                <Button asChild variant="ghost">
+                  <Link href="/about">About</Link>
+                </Button>
+              </div>
+
+              <div className="pt-2">
+                <p className="text-xs uppercase tracking-wide text-black/50 dark:text-white/60">
+                  Comfortable shipping across
+                </p>
+                <div className="mt-3 flex max-w-4xl flex-wrap gap-2">
+                  {[
+                    ".NET / ASP.NET",
+                    "Angular",
+                    "Laravel",
+                    "React",
+                    "SQL Server",
+                    "Docker",
+                    "Azure DevOps",
+                    "Selenium / Playwright",
+                  ].map((t) => (
+                    <Badge key={t} variant="subtle">
+                      {t}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right */}
+            <div className="md:pt-1">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">My default approach</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ol className="space-y-3 text-sm text-black/70 dark:text-white/80">
+                    <li className="flex gap-3">
+                      <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.03] text-xs font-semibold text-black/70 dark:border-white/15 dark:bg-white/5 dark:text-white/80">
+                        1
+                      </span>
+                      <span>
+                        Map product flows + KB, then trace the codebase to the real leverage points.
+                      </span>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.03] text-xs font-semibold text-black/70 dark:border-white/15 dark:bg-white/5 dark:text-white/80">
+                        2
+                      </span>
+                      <span>
+                        Ship small, safe changes with evidence, clear tradeoffs, and rollback options.
+                      </span>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.03] text-xs font-semibold text-black/70 dark:border-white/15 dark:bg-white/5 dark:text-white/80">
+                        3
+                      </span>
+                      <span>
+                        Add automation where it removes toil—repeatable runs, checks, and guardrails.
+                      </span>
+                    </li>
+                  </ol>
+
+                  <div className="mt-5 border-t border-black/10 pt-4 text-xs text-black/50 dark:border-white/15 dark:text-white/60">
+                    Prefer outcomes over buzzwords. Case studies show the details.
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
@@ -101,59 +149,74 @@ export default function HomePage() {
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {[
               {
+                icon: Zap,
                 title: "Ramp-up speed",
-                desc: "I start by learning product flows + KB, then trace the codebase to find leverage points.",
+                desc: "Learn the product first, then confirm assumptions in code. I look for the shortest path to impact.",
               },
               {
-                title: "Delivery mindset",
-                desc: "Small, safe changes that ship: targeted bug fixes, incremental features, clear tradeoffs.",
+                icon: ShieldCheck,
+                title: "Reliability",
+                desc: "Targeted fixes and incremental features with careful scoping, test strategy, and clear fallback plans.",
               },
               {
-                title: "Quality & automation",
-                desc: "Pragmatic checks, evidence, and repeatable runs (automation where it actually helps).",
+                icon: Wrench,
+                title: "Pragmatic automation",
+                desc: "Automate repetitive steps and add guardrails where they actually prevent regressions and rework.",
               },
-            ].map((x) => (
-              <Card key={x.title}>
-                <CardHeader>
-                  <CardTitle>{x.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm leading-relaxed text-black/70 dark:text-white/80">
-                    {x.desc}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+            ].map((x) => {
+              const Icon = x.icon;
+              return (
+                <Card key={x.title}>
+                  <CardHeader>
+                    <div className="flex items-center gap-2">
+                      <Icon className="h-4 w-4 text-sky-400" />
+                      <CardTitle>{x.title}</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm leading-relaxed text-black/70 dark:text-white/80">
+                      {x.desc}
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </section>
 
         {/* FEATURED WORK */}
         <FeaturedWorkGrid items={featured as any} />
 
-        {/* ABOUT TEASER */}
+        {/* CTA */}
         <section className="mt-20 max-w-5xl">
           <Card>
             <CardHeader>
-              <CardTitle>About me (short version)</CardTitle>
+              <CardTitle>Let’s build something reliable</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <p className="text-sm leading-relaxed text-black/70 dark:text-white/80">
-                  I enjoy joining teams with real constraints—legacy code, deadlines, production quirks—
-                  and improving things without breaking velocity.
+                  If you need someone who can ramp up quickly, navigate a messy codebase,
+                  and ship improvements without drama—let’s talk.
                 </p>
 
-                <ul className="space-y-2 text-sm text-black/70 dark:text-white/80">
-                  <li>• Understand product + knowledge base first, then verify in code.</li>
-                  <li>• Ship small, safe changes with clear evidence and rollback options.</li>
-                  <li>• Modernize tooling when it helps (not when it slows delivery).</li>
-                </ul>
-
-                <div className="pt-1">
+                <div className="flex flex-wrap gap-3">
+                  <Button asChild>
+                    <Link href="/contact">
+                      Contact <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </Button>
                   <Button asChild variant="subtle">
-                    <Link href="/about">Read more</Link>
+                    <Link href="/work">Browse case studies</Link>
+                  </Button>
+                  <Button asChild variant="ghost">
+                    <Link href="/about">More context</Link>
                   </Button>
                 </div>
+
+                <p className="text-xs text-black/50 dark:text-white/60">
+                  Prefer to start with evidence? Open a case study and skim the approach + outcomes.
+                </p>
               </div>
             </CardContent>
           </Card>
