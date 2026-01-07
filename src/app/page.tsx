@@ -6,7 +6,7 @@ import { allWorks } from "contentlayer/generated";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Sparkles, Zap, ShieldCheck, Wrench } from "lucide-react";
+import { ArrowRight, Sparkles, Zap, ShieldCheck, Wrench, ArrowUpRight } from "lucide-react";
 
 function coerceOrder(v: unknown): number {
   if (typeof v === "number" && Number.isFinite(v)) return v;
@@ -24,6 +24,10 @@ function featuredWorks() {
     .slice(0, 3);
 }
 
+const cardHover = "transition-colors hover:bg-black/[0.02] dark:hover:bg-white/[0.03]";
+const focusRing =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]";
+
 export default function HomePage() {
   const featured = featuredWorks();
 
@@ -32,7 +36,7 @@ export default function HomePage() {
       <Container>
         {/* HERO */}
         <section className="max-w-5xl">
-          <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr] md:gap-10">
+          <div className="grid gap-8 md:grid-cols-[1.15fr_0.85fr] md:gap-10">
             {/* Left */}
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/[0.03] px-3 py-1 text-xs text-black/70 dark:border-white/15 dark:bg-white/5 dark:text-white/80">
@@ -46,24 +50,33 @@ export default function HomePage() {
                 </h1>
 
                 <p className="max-w-3xl text-lg leading-relaxed text-black/70 dark:text-white/80 md:text-xl">
-                  Full-stack engineer focused on delivery: understand the product and code paths,
-                  then implement safe bug fixes, incremental features, and automation that compounds.
+                  I ramp by learning product flows, verifying assumptions in code, then shipping safe fixes,
+                  incremental features, and automation that reduces toil.
                 </p>
               </div>
 
               <div className="flex flex-wrap gap-3">
                 <Button asChild>
-                  <Link href="/work">
+                  <Link href="/work" className={focusRing}>
                     View Work <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
 
                 <Button asChild variant="subtle">
-                  <Link href="/contact">Contact</Link>
+                  <Link href="/contact" className={focusRing}>
+                    Contact
+                  </Link>
                 </Button>
 
                 <Button asChild variant="ghost">
-                  <Link href="/about">About</Link>
+                  <a
+                    href="/resume.pdf"
+                    target="_blank"
+                    rel="noreferrer"
+                    className={focusRing}
+                  >
+                    Resume <ArrowUpRight className="h-4 w-4" />
+                  </a>
                 </Button>
               </div>
 
@@ -92,40 +105,46 @@ export default function HomePage() {
 
             {/* Right */}
             <div className="md:pt-1">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">My default approach</CardTitle>
+              <Card className={cardHover}>
+                <CardHeader className="space-y-3">
+                  <CardTitle className="text-base">What I’m best used for</CardTitle>
+                  <p className="text-sm text-black/70 dark:text-white/80">
+                    The situations where I tend to create the most leverage quickly.
+                  </p>
                 </CardHeader>
-                <CardContent>
-                  <ol className="space-y-3 text-sm text-black/70 dark:text-white/80">
-                    <li className="flex gap-3">
-                      <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.03] text-xs font-semibold text-black/70 dark:border-white/15 dark:bg-white/5 dark:text-white/80">
-                        1
-                      </span>
-                      <span>
-                        Map product flows + KB, then trace the codebase to the real leverage points.
-                      </span>
-                    </li>
-                    <li className="flex gap-3">
-                      <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.03] text-xs font-semibold text-black/70 dark:border-white/15 dark:bg-white/5 dark:text-white/80">
-                        2
-                      </span>
-                      <span>
-                        Ship small, safe changes with evidence, clear tradeoffs, and rollback options.
-                      </span>
-                    </li>
-                    <li className="flex gap-3">
-                      <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.03] text-xs font-semibold text-black/70 dark:border-white/15 dark:bg-white/5 dark:text-white/80">
-                        3
-                      </span>
-                      <span>
-                        Add automation where it removes toil—repeatable runs, checks, and guardrails.
-                      </span>
-                    </li>
-                  </ol>
 
-                  <div className="mt-5 border-t border-black/10 pt-4 text-xs text-black/50 dark:border-white/15 dark:text-white/60">
-                    Prefer outcomes over buzzwords. Case studies show the details.
+                <CardContent className="space-y-4">
+                  <div className="grid gap-3">
+                    {[
+                      {
+                        k: "Ramp-up & navigation",
+                        v: "Trace flows → identify code paths → ship the first safe PR quickly.",
+                      },
+                      {
+                        k: "Stabilization",
+                        v: "High-signal bug fixes, regression prevention, and friction removal.",
+                      },
+                      {
+                        k: "Automation & guardrails",
+                        v: "Repeatable runs, checks, and CI-friendly workflows that reduce rework.",
+                      },
+                    ].map((x) => (
+                      <div
+                        key={x.k}
+                        className={[
+                          "rounded-2xl border border-black/10 bg-black/[0.02] p-3 transition-colors",
+                          "dark:border-white/15 dark:bg-white/[0.03]",
+                          "hover:bg-black/[0.03] dark:hover:bg-white/[0.05]",
+                        ].join(" ")}
+                      >
+                        <p className="text-sm font-medium text-black dark:text-white">{x.k}</p>
+                        <p className="mt-1 text-sm text-black/70 dark:text-white/80">{x.v}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="border-t border-black/10 pt-4 text-xs text-black/50 dark:border-white/15 dark:text-white/60">
+                    Prefer outcomes over buzzwords. The case studies show the tradeoffs and proof.
                   </div>
                 </CardContent>
               </Card>
@@ -133,40 +152,38 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* PROOF TILES */}
+        {/* PROOF / CAPABILITIES */}
         <section className="mt-16 max-w-5xl">
-          <div className="flex items-end justify-between gap-6">
-            <div>
-              <p className="text-xs uppercase tracking-wide text-black/50 dark:text-white/60">
-                How I deliver
-              </p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-black dark:text-white">
-                High-signal work, shipped safely
-              </h2>
-            </div>
+          <div>
+            <p className="text-xs uppercase tracking-wide text-black/50 dark:text-white/60">
+              How I deliver
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-black dark:text-white">
+              High-signal work, shipped safely
+            </h2>
           </div>
 
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {[
               {
                 icon: Zap,
-                title: "Ramp-up speed",
-                desc: "Learn the product first, then confirm assumptions in code. I look for the shortest path to impact.",
+                title: "Fast ramp-up",
+                desc: "Learn the domain, map the flows, then confirm assumptions in code before committing to solutions.",
               },
               {
                 icon: ShieldCheck,
-                title: "Reliability",
-                desc: "Targeted fixes and incremental features with careful scoping, test strategy, and clear fallback plans.",
+                title: "Reliable delivery",
+                desc: "Scoped changes, clear evidence, and fallback plans—so improvements don’t become regressions.",
               },
               {
                 icon: Wrench,
-                title: "Pragmatic automation",
-                desc: "Automate repetitive steps and add guardrails where they actually prevent regressions and rework.",
+                title: "Automation that matters",
+                desc: "Automate repetitive work and add guardrails where they prevent regressions and rework.",
               },
             ].map((x) => {
               const Icon = x.icon;
               return (
-                <Card key={x.title}>
+                <Card key={x.title} className={cardHover}>
                   <CardHeader>
                     <div className="flex items-center gap-2">
                       <Icon className="h-4 w-4 text-sky-400" />
@@ -189,33 +206,45 @@ export default function HomePage() {
 
         {/* CTA */}
         <section className="mt-20 max-w-5xl">
-          <Card>
+          <Card className={cardHover}>
             <CardHeader>
-              <CardTitle>Let’s build something reliable</CardTitle>
+              <CardTitle>Want a quick fit check?</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <p className="text-sm leading-relaxed text-black/70 dark:text-white/80">
-                  If you need someone who can ramp up quickly, navigate a messy codebase,
-                  and ship improvements without drama—let’s talk.
+                  I’m happy to start with a small scoped task: understand the system → propose an approach
+                  → ship a safe PR with evidence.
                 </p>
 
                 <div className="flex flex-wrap gap-3">
                   <Button asChild>
-                    <Link href="/contact">
+                    <Link href="/contact" className={focusRing}>
                       Contact <ArrowRight className="h-4 w-4" />
                     </Link>
                   </Button>
+
                   <Button asChild variant="subtle">
-                    <Link href="/work">Browse case studies</Link>
+                    <Link href="/work" className={focusRing}>
+                      Browse case studies
+                    </Link>
                   </Button>
+
                   <Button asChild variant="ghost">
-                    <Link href="/about">More context</Link>
+                    <a
+                      href="/resume.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                      className={focusRing}
+                    >
+                      Resume <ArrowUpRight className="h-4 w-4" />
+                    </a>
                   </Button>
                 </div>
 
                 <p className="text-xs text-black/50 dark:text-white/60">
-                  Prefer to start with evidence? Open a case study and skim the approach + outcomes.
+                  If you’re hiring for a role with legacy constraints, delivery pressure, and real users,
+                  that’s my comfort zone.
                 </p>
               </div>
             </CardContent>

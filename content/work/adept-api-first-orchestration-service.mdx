@@ -1,6 +1,5 @@
 ---
 title: "Adept — API-First Orchestration Service"
-date: "2024-10-05"
 summary: "Designed and implemented an API-first orchestration service to manage multi-stage async workflows, improve scalability, and separate heavy AI extraction from real-time refinement."
 tags:
   - API Design
@@ -25,7 +24,7 @@ The existing approach made it hard to scale and harder to keep the pipeline modu
 - Designed a **multi-stage workflow model** (job states + transitions) so each stage could be retried and observed independently.
 - Structured data contracts for **validated inputs** and **structured outputs** to reduce downstream ambiguity.
 - Kept a **single source of truth for job states**, making the system easier to monitor and debug.
-- Decoupled **heavy AI extraction** from **real-time conversational refinement**, improving responsiveness and reducing coupling. :contentReference[oaicite:2]{index=2}
+- Decoupled **heavy AI extraction** from **real-time conversational refinement**, improving responsiveness and reducing coupling.
 
 ## Result
 

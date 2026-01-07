@@ -13,19 +13,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  ArrowUpRight,
-  Bot,
-  Briefcase,
-  Cloud,
-  GraduationCap,
-  Wrench,
-  FileText,
-} from "lucide-react";
+import { ArrowUpRight, Bot, Briefcase, Cloud, GraduationCap, Wrench, FileText } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-type TimelineItem = {
-  period: string;
+type ExperienceItem = {
+  label?: string; // optional (non-date) badge
   org: string;
   role: string;
   icon: LucideIcon;
@@ -33,9 +25,9 @@ type TimelineItem = {
   bullets: string[];
 };
 
-const timeline: TimelineItem[] = [
+const experience: ExperienceItem[] = [
   {
-    period: "Dec 2023 — Present",
+    label: "Current focus",
     org: "N-Compass TV",
     role: "Full-stack • QA Automation • R&D (LLMs)",
     icon: Bot,
@@ -48,7 +40,6 @@ const timeline: TimelineItem[] = [
     ],
   },
   {
-    period: "Sep 2023 — Dec 2023",
     org: "Wind’s Gate Phils",
     role: "Full-stack (crypto platforms)",
     icon: Wrench,
@@ -60,7 +51,6 @@ const timeline: TimelineItem[] = [
     ],
   },
   {
-    period: "Jun 2023 — Sep 2023",
     org: "Ramon Aboitiz Foundation Inc. (RAFI)",
     role: "Laravel Integrations • DevOps (Microsoft ecosystem)",
     icon: Cloud,
@@ -72,7 +62,6 @@ const timeline: TimelineItem[] = [
     ],
   },
   {
-    period: "Nov 2022 — May 2023",
     org: "Gemango Software Services",
     role: "Software Engineer",
     icon: Briefcase,
@@ -83,7 +72,6 @@ const timeline: TimelineItem[] = [
     ],
   },
   {
-    period: "Dec 2020 — May 2022",
     org: "Hatchit Solutions",
     role: "Software Engineer (features + testing)",
     icon: Briefcase,
@@ -94,9 +82,8 @@ const timeline: TimelineItem[] = [
     ],
   },
   {
-    period: "B.S. Computer Science",
     org: "University of San Carlos",
-    role: "Foundations + applied delivery",
+    role: "B.S. Computer Science (foundations + applied delivery)",
     icon: GraduationCap,
     tags: ["Systems thinking", "Web apps", "APIs", "Databases"],
     bullets: [
@@ -105,41 +92,42 @@ const timeline: TimelineItem[] = [
   },
 ];
 
-function TimelineItemRow({ item, isLast }: { item: TimelineItem; isLast: boolean }) {
+function ExperienceCard({ item }: { item: ExperienceItem }) {
   const Icon = item.icon;
 
   return (
-    <li className="relative pl-10">
-      <span className="absolute left-1 top-2 h-2.5 w-2.5 rounded-full bg-sky-400" />
-      {!isLast ? (
-        <span className="absolute left-[6px] top-5 h-[calc(100%+20px)] w-px bg-black/10 dark:bg-white/15" />
-      ) : null}
+    <Card className="h-full">
+      <CardHeader className="space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="inline-flex items-center gap-2 text-sm font-medium text-black dark:text-white">
+            <Icon className="h-4 w-4 text-sky-400" />
+            {item.org}
+          </div>
 
-      <div className="flex flex-wrap items-center gap-2">
-        <Badge variant="subtle">{item.period}</Badge>
-        <div className="inline-flex items-center gap-2 text-sm font-medium text-black dark:text-white">
-          <Icon className="h-4 w-4 text-sky-400" />
-          {item.org}
+          {item.label ? <Badge variant="subtle">{item.label}</Badge> : null}
         </div>
-        <span className="text-sm text-black/60 dark:text-white/60">— {item.role}</span>
-      </div>
 
-      <ul className="mt-3 space-y-2 text-sm text-black/70 dark:text-white/80">
-        {item.bullets.map((b) => (
-          <li key={b}>• {b}</li>
-        ))}
-      </ul>
+        <p className="text-sm text-black/60 dark:text-white/60">{item.role}</p>
+      </CardHeader>
 
-      {item.tags?.length ? (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {item.tags.map((t) => (
-            <Badge key={t} variant="subtle">
-              {t}
-            </Badge>
+      <CardContent>
+        <ul className="space-y-2 text-sm text-black/70 dark:text-white/80">
+          {item.bullets.map((b) => (
+            <li key={b}>• {b}</li>
           ))}
-        </div>
-      ) : null}
-    </li>
+        </ul>
+
+        {item.tags?.length ? (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {item.tags.map((t) => (
+              <Badge key={t} variant="subtle">
+                {t}
+              </Badge>
+            ))}
+          </div>
+        ) : null}
+      </CardContent>
+    </Card>
   );
 }
 
@@ -148,9 +136,7 @@ export default function AboutPage() {
     <main className="min-h-screen py-16">
       <Container>
         <header className="max-w-5xl">
-          <p className="text-xs uppercase tracking-wide text-black/50 dark:text-white/60">
-            About
-          </p>
+          <p className="text-xs uppercase tracking-wide text-black/50 dark:text-white/60">About</p>
 
           <h1 className="mt-2 text-3xl font-semibold tracking-tight text-black dark:text-white md:text-4xl">
             Jose Rico Suan
@@ -188,18 +174,12 @@ export default function AboutPage() {
               <Link href="/contact">Contact</Link>
             </Button>
 
-            {/* Expects a file at /public/resume.pdf */}
             <Button asChild variant="ghost">
               <a href="/resume.pdf" target="_blank" rel="noreferrer">
                 Resume <FileText className="h-4 w-4" />
               </a>
             </Button>
           </div>
-
-          <p className="mt-3 text-xs text-black/50 dark:text-white/60">
-            Tip: place your PDF at <span className="font-medium">/public/resume.pdf</span> to make the Resume
-            button work.
-          </p>
         </header>
 
         <section className="mt-12 grid max-w-5xl gap-6 md:grid-cols-[360px_1fr]">
@@ -226,9 +206,7 @@ export default function AboutPage() {
 
                     <div className="mt-5 grid gap-5">
                       <section>
-                        <h3 className="text-sm font-semibold text-black dark:text-white">
-                          Hobbies
-                        </h3>
+                        <h3 className="text-sm font-semibold text-black dark:text-white">Hobbies</h3>
                         <p className="mt-1 text-sm text-black/70 dark:text-white/80">
                           Gym/fitness, tinkering with side projects, and learning new tools fast when there’s
                           a real problem to solve.
@@ -236,9 +214,7 @@ export default function AboutPage() {
                       </section>
 
                       <section>
-                        <h3 className="text-sm font-semibold text-black dark:text-white">
-                          Work style
-                        </h3>
+                        <h3 className="text-sm font-semibold text-black dark:text-white">Work style</h3>
                         <ul className="mt-2 space-y-2 text-sm text-black/70 dark:text-white/80">
                           <li>• I ask clarifying questions early, then move quickly.</li>
                           <li>• I prefer scoped PRs with clear evidence and rollback options.</li>
@@ -336,9 +312,7 @@ export default function AboutPage() {
                 </p>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-black dark:text-white">
-                    Ramp-up → Ship loop
-                  </h3>
+                  <h3 className="text-sm font-semibold text-black dark:text-white">Ramp-up → Ship loop</h3>
                   <ul className="mt-2 space-y-2 text-sm text-black/70 dark:text-white/80">
                     <li>
                       <span className="font-medium text-black dark:text-white">Understand:</span>{" "}
@@ -356,9 +330,7 @@ export default function AboutPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-black dark:text-white">
-                    Primary tools I touch
-                  </h3>
+                  <h3 className="text-sm font-semibold text-black dark:text-white">Primary tools I touch</h3>
                   <div className="mt-2 flex flex-wrap gap-2">
                     <Badge variant="subtle">.NET / ASP.NET</Badge>
                     <Badge variant="subtle">Angular</Badge>
@@ -379,15 +351,15 @@ export default function AboutPage() {
           </Card>
         </section>
 
-        {/* Timeline */}
+        {/* Selected Experience (no dates, no timeline visuals) */}
         <section className="mt-12 max-w-5xl">
           <Card>
             <CardHeader>
               <div className="flex items-end justify-between gap-6">
                 <div>
-                  <CardTitle>Experience timeline</CardTitle>
+                  <CardTitle>Selected experience</CardTitle>
                   <p className="mt-2 text-sm text-black/70 dark:text-white/80">
-                    Concise highlights focused on outcomes and constraints.
+                    Roles and outcomes—focused on what I shipped and how I operate.
                   </p>
                 </div>
 
@@ -400,15 +372,11 @@ export default function AboutPage() {
             </CardHeader>
 
             <CardContent>
-              <ol className="relative space-y-7">
-                {timeline.map((item, idx) => (
-                  <TimelineItemRow
-                    key={`${item.org}-${item.period}`}
-                    item={item}
-                    isLast={idx === timeline.length - 1}
-                  />
+              <div className="grid gap-4 md:grid-cols-2">
+                {experience.map((item) => (
+                  <ExperienceCard key={`${item.org}-${item.role}`} item={item} />
                 ))}
-              </ol>
+              </div>
 
               <div className="mt-6 flex flex-wrap gap-3 sm:hidden">
                 <Button asChild variant="subtle">

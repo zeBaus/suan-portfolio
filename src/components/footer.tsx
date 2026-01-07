@@ -1,6 +1,7 @@
 // src/components/footer.tsx
 import Link from "next/link";
 import Container from "@/components/container";
+import { externalLinkClass, linkStyles, cn } from "@/lib/utils";
 
 export default function Footer() {
   return (
@@ -10,16 +11,19 @@ export default function Footer() {
           © {new Date().getFullYear()} Jose Rico Suan. All rights reserved.
         </p>
 
-        <nav className="flex flex-wrap items-center gap-6 text-sm">
-          <Link href="/work" className="text-black/70 hover:text-black dark:text-white/75 dark:hover:text-white">
+        <nav className="flex flex-wrap items-center gap-6">
+          <Link href="/work" className={cn(linkStyles.nav, linkStyles.base, linkStyles.inactive)}>
             Work
           </Link>
-          <Link href="/#about" className="text-black/70 hover:text-black dark:text-white/75 dark:hover:text-white">
+          <Link href="/about" className={cn(linkStyles.nav, linkStyles.base, linkStyles.inactive)}>
             About
           </Link>
-          <Link href="/contact" className="text-black/70 hover:text-black dark:text-white/75 dark:hover:text-white">
+          <Link href="/contact" className={cn(linkStyles.nav, linkStyles.base, linkStyles.inactive)}>
             Contact
           </Link>
+          <a href="/resume.pdf" target="_blank" rel="noreferrer" className={externalLinkClass()}>
+            Resume
+          </a>
         </nav>
       </Container>
     </footer>

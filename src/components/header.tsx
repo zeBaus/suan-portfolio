@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 
 import Container from "@/components/container";
-import { cn } from "@/lib/utils";
+import { cn, externalLinkClass, navLinkClass } from "@/lib/utils";
 
 type AppRoute = "/" | "/work" | "/about" | "/contact";
 
@@ -28,16 +28,25 @@ function NavLink({
     <Link
       href={href as any}
       onClick={onClick}
-      className={cn(
-        "text-sm transition-colors underline-offset-4",
-        isActive
-          ? "text-black dark:text-white underline"
-          : "text-black/70 hover:text-black dark:text-white/75 dark:hover:text-white"
-      )}
+      className={navLinkClass(isActive)}
       aria-current={isActive ? "page" : undefined}
     >
       {children}
     </Link>
+  );
+}
+
+function ResumeLink({ onClick }: { onClick?: () => void }) {
+  return (
+    <a
+      href="/resume.pdf"
+      target="_blank"
+      rel="noreferrer"
+      onClick={onClick}
+      className={externalLinkClass()}
+    >
+      Resume
+    </a>
   );
 }
 
@@ -72,6 +81,7 @@ export default function Header() {
           <NavLink href="/work">Work</NavLink>
           <NavLink href="/about">About</NavLink>
           <NavLink href="/contact">Contact</NavLink>
+          <ResumeLink />
 
           <button
             type="button"
@@ -143,6 +153,7 @@ export default function Header() {
             <NavLink href="/contact" onClick={() => setOpen(false)}>
               Contact
             </NavLink>
+            <ResumeLink onClick={() => setOpen(false)} />
           </Container>
         </div>
       ) : null}

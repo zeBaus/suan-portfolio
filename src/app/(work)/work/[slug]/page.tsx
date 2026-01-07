@@ -10,6 +10,10 @@ import Container from "@/components/container";
 import React from "react";
 import CopyButton from "@/components/copy-button";
 
+const cardHover = "transition-colors hover:bg-black/[0.02] dark:hover:bg-white/[0.03]";
+const focusRing =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]";
+
 function getCodeStringFromPreChildren(children: React.ReactNode): string {
   if (typeof children === "string") return children;
 
@@ -52,32 +56,30 @@ const components = {
   ),
 
   p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p
-      className="mt-4 leading-relaxed text-black/70 first:mt-0 dark:text-white/80"
-      {...props}
-    />
+    <p className="mt-4 leading-relaxed text-black/70 first:mt-0 dark:text-white/80" {...props} />
+  ),
+
+  strong: (props: React.HTMLAttributes<HTMLElement>) => (
+    <strong className="font-semibold text-black dark:text-white" {...props} />
   ),
 
   ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul
-      className="mt-4 list-disc space-y-2 pl-6 text-black/70 dark:text-white/80"
-      {...props}
-    />
+    <ul className="mt-4 list-disc space-y-2 pl-6 text-black/70 dark:text-white/80" {...props} />
   ),
   ol: (props: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol
-      className="mt-4 list-decimal space-y-2 pl-6 text-black/70 dark:text-white/80"
-      {...props}
-    />
+    <ol className="mt-4 list-decimal space-y-2 pl-6 text-black/70 dark:text-white/80" {...props} />
   ),
-  li: (props: React.HTMLAttributes<HTMLLIElement>) => (
-    <li className="leading-relaxed" {...props} />
-  ),
+  li: (props: React.HTMLAttributes<HTMLLIElement>) => <li className="leading-relaxed" {...props} />,
 
   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a
-      className="font-medium text-black underline underline-offset-4 transition-opacity hover:opacity-90 dark:text-white"
       {...props}
+      className={[
+        "font-medium text-black underline underline-offset-4 transition-colors",
+        "hover:opacity-90 dark:text-white",
+        focusRing,
+        (props as any).className ?? "",
+      ].join(" ")}
     />
   ),
 
@@ -100,12 +102,7 @@ const components = {
     const isBlockCode = typeof className === "string" && /language-/.test(className);
 
     if (isBlockCode) {
-      return (
-        <code
-          {...props}
-          className={`font-mono text-[0.95em] ${className}`.trim()}
-        />
-      );
+      return <code {...props} className={`font-mono text-[0.95em] ${className}`.trim()} />;
     }
 
     return (
@@ -131,9 +128,7 @@ const components = {
             ) : null}
           </div>
 
-          <div className="flex items-center gap-2">
-            {raw ? <CopyButton value={raw} /> : null}
-          </div>
+          <div className="flex items-center gap-2">{raw ? <CopyButton value={raw} /> : null}</div>
         </div>
 
         <pre
@@ -196,15 +191,17 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
 
   const title = `${work.title} — Work`;
   const description = work.summary ?? "Case study";
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "") ?? "http://localhost:3000";
-  const url = `${baseUrl}/work/${work.slug}`;
-
 
   return {
     title,
     description,
-    openGraph: { title, description, url, type: "article" },
+    openGraph: {
+      title,
+      description,
+      // resolved against metadataBase from src/app/layout.tsx
+      url: `/work/${work.slug}`,
+      type: "article",
+    },
     twitter: { card: "summary_large_image", title, description },
   };
 }
@@ -221,12 +218,16 @@ export default function WorkPage({ params }: { params: Params }) {
         <header className="max-w-3xl">
           <Link
             href="/work"
-            className="inline-flex items-center gap-2 text-sm text-black/60 hover:text-black dark:text-white/70 dark:hover:text-white"
+            className={[
+              "inline-flex items-center gap-2 text-sm text-black/60 transition-colors hover:text-black",
+              "dark:text-white/70 dark:hover:text-white",
+              focusRing,
+            ].join(" ")}
           >
             ← Back to Work
           </Link>
 
-          <Card className="mt-4">
+          <Card className={`mt-4 ${cardHover}`}>
             <CardHeader>
               <p className="text-xs uppercase tracking-wide text-black/50 dark:text-white/60">
                 Case Study
@@ -236,7 +237,7 @@ export default function WorkPage({ params }: { params: Params }) {
 
             <CardContent>
               {work.summary ? (
-                <p className="text-black/70 dark:text-white/80">{work.summary}</p>
+                <p className="leading-relaxed text-black/70 dark:text-white/80">{work.summary}</p>
               ) : null}
 
               {work.tags?.length ? (
@@ -252,8 +253,10 @@ export default function WorkPage({ params }: { params: Params }) {
           </Card>
         </header>
 
-        <article className="mt-10 max-w-3xl">
-          <MDXContent components={components as any} />
+        <article className="prose-neutral mt-10 max-w-3xl">
+          <div className="space-y-6">
+            <MDXContent components={components as any} />
+          </div>
         </article>
       </Container>
     </main>
