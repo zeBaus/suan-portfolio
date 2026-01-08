@@ -21,14 +21,12 @@ function getMetadataBase(): URL {
   return new URL("http://localhost:3000");
 }
 
-export const metadata: Metadata = {
-  ...baseMetadata({
-    title: "Rico Suan — Adaptive Full-Stack Portfolio",
-    description:
-      "Clean, fast, outcome-driven portfolio highlighting adaptability and full-stack delivery.",
-  }),
+export const metadata: Metadata = baseMetadata({
   metadataBase: getMetadataBase(),
-};
+  title: "Rico Suan — Adaptive Full-Stack Portfolio",
+  description:
+    "Clean, fast, outcome-driven portfolio highlighting adaptability and full-stack delivery.",
+});
 
 export const viewport: Viewport = {
   themeColor: "#0ea5e9",
