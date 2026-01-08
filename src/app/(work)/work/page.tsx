@@ -20,10 +20,18 @@ function sortWorks(list: typeof allWorks) {
     const bo = coerceOrder((b as any).order);
     if (ao !== bo) return ao - bo;
 
-    // Date-free: deterministic fallback
-    return a.title.localeCompare(b.title);
+    // Deterministic fallback: title (case-insensitive-ish, numeric-friendly)
+    const t = a.title.localeCompare(b.title, "en", { sensitivity: "base", numeric: true });
+    if (t !== 0) return t;
+
+    // Extra tie-breakers to guarantee stable order across builds
+    const s = a.slug.localeCompare(b.slug, "en", { sensitivity: "base", numeric: true });
+    if (s !== 0) return s;
+
+    return a._id.localeCompare(b._id);
   });
 }
+
 
 function clampTags(tags?: string[], max = 4) {
   if (!tags?.length) return { shown: [], more: 0 };

@@ -13,7 +13,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ArrowUpRight, Bot, Briefcase, Cloud, GraduationCap, Wrench, FileText } from "lucide-react";
+import {
+  ArrowUpRight,
+  Bot,
+  Briefcase,
+  Cloud,
+  GraduationCap,
+  Wrench,
+  FileText,
+  Code2,
+  Database,
+  Server,
+  TestTube2,
+  Sparkles,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 type ExperienceItem = {
@@ -24,6 +37,112 @@ type ExperienceItem = {
   tags: string[];
   bullets: string[];
 };
+
+type SkillGroup = {
+  title: string;
+  icon: LucideIcon;
+  items: string[];
+};
+
+const skillGroups: SkillGroup[] = [
+  {
+    title: "Languages",
+    icon: Code2,
+    items: ["Python", "TypeScript", "JavaScript", "C#", "Java", "PHP", "SQL"],
+  },
+  {
+    title: "Frontend",
+    icon: Sparkles,
+    items: ["React", "Next.js", "Angular", "Vue", "Tailwind CSS", "shadcn/ui", "MUI"],
+  },
+  {
+    title: "Backend & APIs",
+    icon: Server,
+    items: [
+      "ASP.NET Core (Web API)",
+      "Node.js (Express/Fastify/NestJS)",
+      "Laravel",
+      "Django / FastAPI",
+    ],
+  },
+  {
+    title: "Databases",
+    icon: Database,
+    items: ["SQL Server", "PostgreSQL", "MySQL / MariaDB", "SQLite", "MongoDB"],
+  },
+  {
+    title: "Cloud & DevOps",
+    icon: Cloud,
+    items: [
+      "Docker",
+      "CI/CD (GitHub Actions / GitLab CI / Azure DevOps)",
+      "AWS (S3/EC2/Lambda/API GW/RDS/CloudFront)",
+      "Azure (App Service/Functions/Storage/Key Vault)",
+      "Cron / scheduled jobs",
+    ],
+  },
+  {
+    title: "Testing & QA",
+    icon: TestTube2,
+    items: ["Playwright", "Selenium", "Postman", "PHPUnit"],
+  },
+  {
+    title: "Automation & Data",
+    icon: Wrench,
+    items: ["Scripting (Python / Bash)", "Web scraping (BeautifulSoup / Playwright)"],
+  },
+  {
+    title: "AI / LLM Workflows",
+    icon: Bot,
+    items: [
+      "OpenAI API / Assistants",
+      "Prompt engineering",
+      "RAG (vector search)",
+      "Embeddings",
+      "LangChain / LlamaIndex",
+      "Pinecone / Weaviate / pgvector",
+      "Evaluation / benchmarking",
+    ],
+  },
+];
+
+function SkillGroupCard({ g }: { g: SkillGroup }) {
+  const Icon = g.icon;
+  const primary = g.items.slice(0, 6);
+  const rest = g.items.slice(6);
+
+  return (
+    <div className="rounded-2xl border border-black/10 bg-black/[0.02] p-4 dark:border-white/15 dark:bg-white/[0.03]">
+      <div className="flex items-center gap-2">
+        <Icon className="h-4 w-4 text-sky-400" />
+        <p className="text-sm font-semibold text-black dark:text-white">{g.title}</p>
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        {primary.map((t) => (
+          <Badge key={t} variant="subtle">
+            {t}
+          </Badge>
+        ))}
+      </div>
+
+      {rest.length ? (
+        <details className="mt-3">
+          <summary className="cursor-pointer text-xs text-black/60 dark:text-white/60">
+            Show more
+          </summary>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {rest.map((t) => (
+              <Badge key={t} variant="subtle">
+                {t}
+              </Badge>
+            ))}
+          </div>
+        </details>
+      ) : null}
+    </div>
+  );
+}
 
 const experience: ExperienceItem[] = [
   {
@@ -117,15 +236,20 @@ function ExperienceCard({ item }: { item: ExperienceItem }) {
           ))}
         </ul>
 
-        {item.tags?.length ? (
-          <div className="mt-4 flex flex-wrap gap-2">
+      {item.tags?.length ? (
+        <>
+          <p className="mt-4 text-xs uppercase tracking-wide text-black/50 dark:text-white/60">
+            Primary stack
+          </p>
+          <div className="mt-2 flex flex-wrap gap-2">
             {item.tags.map((t) => (
               <Badge key={t} variant="subtle">
                 {t}
               </Badge>
             ))}
           </div>
-        ) : null}
+        </>
+      ) : null}
       </CardContent>
     </Card>
   );
@@ -346,6 +470,27 @@ export default function AboutPage() {
                     <Badge variant="subtle">Selenium (Python)</Badge>
                   </div>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Toolbox */}
+        <section id="toolbox" className="mt-12 max-w-5xl scroll-mt-24">
+          <Card>
+            <CardHeader>
+              <CardTitle>Toolbox</CardTitle>
+              <p className="mt-2 text-sm text-black/70 dark:text-white/80">
+                Primary stack is what I’ve shipped with repeatedly. Toolbox is the broader set I’ve used across
+                production work, internal tools, automation, and experiments.
+              </p>
+            </CardHeader>
+
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-2">
+                {skillGroups.map((g) => (
+                  <SkillGroupCard key={g.title} g={g} />
+                ))}
               </div>
             </CardContent>
           </Card>

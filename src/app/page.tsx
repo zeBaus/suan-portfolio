@@ -82,8 +82,9 @@ export default function HomePage() {
 
               <div className="pt-2">
                 <p className="text-xs uppercase tracking-wide text-black/50 dark:text-white/60">
-                  Comfortable shipping across
+                  Primary stack (shipped)
                 </p>
+
                 <div className="mt-3 flex max-w-4xl flex-wrap gap-2">
                   {[
                     ".NET / ASP.NET",
@@ -100,6 +101,13 @@ export default function HomePage() {
                     </Badge>
                   ))}
                 </div>
+
+                <p className="mt-3 text-sm text-black/60 dark:text-white/60">
+                  Toolbox includes additional tech I’ve used in smaller builds, automation, or experiments.{" "}
+                  <Link href="/about#toolbox" className="underline-offset-4 hover:underline">
+                    See full toolbox →
+                  </Link>
+                </p>
               </div>
             </div>
 
